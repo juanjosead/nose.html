@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambio de Página con Animaciones</title>
+    <link rel="stylesheet" href="prueba2.css">
+</head>
+<body>
+    <!-- Reproducción de música -->
+    <audio id="musica" loop>
+        <source src="tu_musica.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Contenedor de la animación 1 -->
+    <div id="animacion1">
+        <!-- Flechas -->
+        <div class="flecha izquierda">←</div>
+        <div class="flecha derecha">→</div>
+
+        <!-- Imagen del pastel -->
+        <div class="pastel" onclick="triggerEffect()">
+            <img src="https://i.pinimg.com/736x/86/7d/55/867d559ac6a0f3ff753773b71735fc49.jpg" alt="Snoopyn">
+        </div>
+
+        <!-- Texto -->
+        <p class="indicacion">CLICK EN SNOOPYN</p>
+    </div>
+
+    <!-- Contenedor para la animación 2 -->
+    <div class="overlay"></div>
+    <div class="fuegos"></div> <!-- Aquí agregamos la animación de fuegos artificiales -->
+    
+    <!-- GIF de Snoopy caminando -->
+    <div class="snoopy-caminando" id="snoopy" style="display: none;">
+        <img src="https://www.cweden.com/snoopy/animated/EasterBunny.gif" alt="Snoopy caminando" />
+    </div>
+
+    <div class="snoopy-caminando-arriba" id="snoopy-arriba" style="display: none;">
+        <img src="https://www.cweden.com/snoopy/animated/EasterBunny.gif" alt="Snoopy caminando arriba" />
+    </div>
+
+    <!-- Carta con animación -->
+    <div class="carta" id="carta" style="display: none;">
+        <div class="contenido-carta">
+            <h2>Mi Carta Especial</h2>
+            <p>Este es un mensaje de amor con un toque especial de magia.</p>
+        </div>
+    </div>
+
+    <script>
+        function triggerEffect() {
+            var musica = document.getElementById('musica');
+            musica.play();
+
+            // Activamos la animación del pastel
+            var pastel = document.querySelector('.pastel img');
+            pastel.classList.add('salto');
+
+            // Ocultamos la animación 1 y activamos la animación 2
+            setTimeout(function() {
+                document.getElementById('animacion1').style.display = 'none'; // Ocultamos la animación 1
+                var overlay = document.querySelector('.overlay');
+                overlay.style.animation = 'abrir 2s forwards'; // Activamos la animación de apertura del fondo
+                // Activamos los fuegos artificiales
+                triggerFireworks();
+
+                // Mostramos la carta después de 3 segundos
+                var carta = document.getElementById('carta');
+                carta.style.display = 'block'; // Hacemos visible la carta
+                carta.classList.add('aparecer'); // Aplicamos la animación para que aparezca
+
+                // Mostrar la animación de los GIFs después de 2 segundos
+                setTimeout(function() {
+                    var snoopy = document.getElementById('snoopy');
+                    snoopy.style.display = 'block';
+                    snoopy.classList.add('caminar'); // Añadimos la clase para animación
+
+                    // Si tienes el segundo GIF en la parte superior, muestra ese también
+                    var snoopyArriba = document.getElementById('snoopy-arriba');
+                    snoopyArriba.style.display = 'block';
+                }, 2000); // Tiempo para mostrar la animación después de que todo cargue
+            }, 1500); // Tiempo igual a la duración del salto
+        }
+
+        // Generar múltiples fuegos artificiales cada segundo
+        function triggerFireworks() {
+            setInterval(() => {
+                createFirework(); // Crear un fuego artificial cada vez
+            }, 300); // Intervalo de 300ms entre cada fuego artificial
+        }
+
+        function createFirework() {
+            const firework = document.createElement("div");
+            firework.classList.add("firework");
+            document.body.appendChild(firework);
+
+            const size = Math.random() * 30 + 10; // Tamaño aleatorio del fuego
+            const duration = Math.random() * 2 + 2; // Duración aleatoria de la explosión
+            const startX = Math.random() * window.innerWidth; // Posición aleatoria en X
+            const startY = Math.random() * window.innerHeight; // Posición aleatoria en Y
+
+            firework.style.width = `${size}px`;
+            firework.style.height = `${size}px`;
+            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`; // Color aleatorio
+
+            firework.style.left = `${startX}px`;
+            firework.style.top = `${startY}px`;
+
+            // Animación de explosión
+            firework.style.animation = `explosion ${duration}s ease-out forwards`;
+
+            // Remover el fuego después de que termine la animación
+            setTimeout(() => {
+                firework.remove();
+            }, duration * 1000);
+        }
+    </script>
+</body>
+</html>
+
+
+
